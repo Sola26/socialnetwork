@@ -13,7 +13,7 @@ let elem;
 if (location.pathname == "/welcome") {
   elem = <Welcome />;
 } else {
-  elem = <img src="pic.gif" />;
+  elem = <a href="/logout">log out</a>;
 }
 
 ReactDOM.render(

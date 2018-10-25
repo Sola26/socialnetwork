@@ -2,36 +2,30 @@ import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 
-let firstname, lastname, email, password;
-
-export default class Registration extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
-      lastname: "",
       email: "",
       password: "",
       error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.register = this.register.bind(this);
+    this.login = this.login.bind(this);
   }
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  register() {
+  login() {
     axios
-      .post("/welcome", {
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
+      .post("/login", {
         email: this.state.email,
         password: this.state.password
       })
-      .then(data => {
-        // console.log(data);
-        if (data.data) {
+      .then(result => {
+        // console.log(result);
+        if (result.data) {
           location.replace("/profile");
         } else {
           this.setState({
@@ -44,27 +38,15 @@ export default class Registration extends React.Component {
     return (
       <div>
         {this.state.error && <div className="error">try again</div>}
-        <input
-          name="firstname"
-          placeholder="First name"
-          onChange={this.handleChange}
-        />
-        <input
-          name="lastname"
-          placeholder="Last name"
-          onChange={this.handleChange}
-        />
         <input name="email" placeholder="Email" onChange={this.handleChange} />
+
         <input
           name="password"
           placeholder="Password"
           onChange={this.handleChange}
         />
-        <button onClick={this.register}>Register</button>
-        <Link to="/login">Click here to Log in!</Link>
+        <button onClick={this.login}>Login</button>
       </div>
     );
   }
 }
-
-// <a href="/logout">log out</a>

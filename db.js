@@ -80,3 +80,35 @@ exports.checkPassword = function(
     });
   });
 };
+
+////////////////////////////////////////////////////////////////////////////////////
+
+exports.uploadImages = function(image, id) {
+  const q = `
+        UPDATE users
+        SET image =$1
+        WHERE id = $2
+        returning *`;
+  const params = [image, id];
+  return db.query(q, params);
+};
+
+////////////////////////////////////////////////////////////////////////////////////
+
+exports.getUserById = function(id) {
+  const q = `
+          SELECT *
+        FROM users
+        WHERE id = $1
+        `;
+  const params = [id];
+  return db.query(q, params);
+};
+
+exports.uploadBio = function(bio, id) {
+  return db
+    .query(`UPDATE social SET bio=$1 WHERE id=$2 returning *`, [bio, id])
+    .then(result => {
+      return result.rows[0].bio;
+    });
+};

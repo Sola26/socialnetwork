@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Registration from "./registration";
+
 import Welcome from "./welcome";
+import App from "./app.js";
 
 // ReactDOM.render(<HelloWorld />, document.querySelector("main"));
 //
@@ -9,14 +10,8 @@ import Welcome from "./welcome";
 //   return <div>Hello, World!</div>;
 // }
 
-let elem;
-if (location.pathname == "/welcome") {
-  elem = <Welcome />;
+if (location.pathname === "/welcome") {
+  ReactDOM.render(<Welcome />, document.querySelector("main"));
 } else {
-  elem = <a href="/logout">log out</a>;
+  ReactDOM.render(<App />, document.querySelector("main"));
 }
-
-ReactDOM.render(
-  elem, //the logo//
-  document.querySelector("main")
-);

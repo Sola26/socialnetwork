@@ -33,7 +33,7 @@ export default class Uploadimage extends React.Component {
           <h3>Update your picture</h3>
           <br />
           <label htmlFor="file">
-            <p>Choose a new picture from your disk</p>
+            <p>Upload a picture</p>
             <input
               id="file"
               type="file"

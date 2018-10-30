@@ -2,9 +2,8 @@ import axios from "./axios";
 import React from "react";
 import ProfilePic from "./profilepic.js";
 import Uploadimage from "./uploadImage";
-import Bio from "./Bio.js";
+import Bio from "./bio.js";
 import Profile from "./profile";
-
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS friendships CASCADE;
 -- by adding CASCADE, we delete table if other objects depend on it;
 -- DROP TABLE IF EXISTS users;
 
@@ -10,4 +11,13 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     image TEXT,
     bio TEXT
+);
+
+
+
+CREATE TABLE friendships (
+    id SERIAL PRIMARY KEY,
+    sender_id INT NOT NULL REFERENCES users(id),
+    receiver_id INT NOT NULL REFERENCES user(id),
+    accepted BOOLEAN DEFAULT false
 );

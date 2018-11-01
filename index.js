@@ -115,61 +115,6 @@ app.post("/welcome", function(req, res) {
 
 //////////////////////////////////////////////////////////////
 
-// app.post("/login", function(req, res) {
-//   if (!req.body.password) {
-//     res.json({
-//       success: false
-//     });
-//   } else {
-//     db.getPassword(req.body.email)
-//       .then(results => {
-//         let password = results.rows[0].password;
-//         db.checkPassword(req.body.password, password)
-//           .then(result => {
-//             console.log("result: ", result);
-//             req.session.loggedIn = true;
-//
-//             res.redirect("/profile");
-//           })
-//           .catch(err => {
-//             console.log("err in login: ", err);
-//           });
-//       })
-//       .catch(err => {
-//         console.log("err in last catch: ", err);
-//       });
-//   }
-// });
-// app.post("/login", (req, res) => {
-//   if (!req.body.password) {
-//     res.json({
-//       success: false
-//     });
-//   } else {
-//     db.getPassword(req.body.email)
-//       .then(result => {
-//         console.log("req.body.password: ", req.body.password);
-//         let password = result.rows[0].password;
-//         console.log(password);
-//         db.checkPassword(req.body.password, password)
-//           .then(getPassword => {
-//             if (getPassword) {
-//               req.session.loggedIn = true;
-//               res.json({ success: true });
-//             } else {
-//               res.json({ success: false });
-//             }
-//           })
-//           .catch(err => {
-//             console.log("err in first catch: ", err);
-//           });
-//       })
-//       .catch(err => {
-//         console.log("err in last catch login post: ", err);
-//       });
-//   }
-// });
-
 app.post("/login", (req, res) => {
   db.getPassword(req.body.email)
     .then(result => {
@@ -179,7 +124,7 @@ app.post("/login", (req, res) => {
           console.log("User registered:", userRegistered);
           if (userRegistered) {
             req.session.user = {};
-            req.session.user.id = result.rows[0].id;
+            req.session.userId = result.rows[0].id;
             res.json({ success: true });
           } else {
             res.json({ success: false });
@@ -206,12 +151,12 @@ app.get("/user", function(req, res) {
     });
 });
 
-//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
-  console.log("req.session.user.id: ", req.session.user.id);
+  // console.log("req.session.user.id: ", req.session.user.id);
   const imgUrl = s3Url.s3Url + req.file.filename;
-  db.uploadImages(imgUrl, req.session.user.id)
+  db.uploadImages(imgUrl, req.session.userId)
     .then(results => {
       console.log("results: ", results);
       res.json({ imgUrl });
@@ -221,14 +166,37 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
     });
 });
 
+/////////////////////////////////////////////////////////////
+
 app.post("/usersbio", function(req, res) {
-  db.uploadBio(req.body.bio, req.session.userID)
+  console.log("usersbio");
+  db.uploadBio(req.body.bio, req.session.userId)
     .then(result => {
-      res.json({ result });
+      res.json(result.rows[0]);
     })
     .catch(err => {
-      console.log("err in getUsersBio: ", err.message);
+      console.log("err in postUsersBio: ", err.message);
     });
+});
+
+/////////////////////////////////////////////////////////////
+
+app.get("/api-user-id/:id", function(req, res) {
+  console.log("req.params.id ", req.params.id);
+  if (req.params.oppId == req.session.userId) {
+    console.log("req.params.oppId: ", req.params.oppId);
+    res.json("false");
+  } else {
+    return db
+      .getUserById(req.params.id)
+      .then(result => {
+        console.log("result in index: ", result);
+        res.json(result.rows[0]);
+      })
+      .catch(err => {
+        console.log("err in user id: ", err.message);
+      });
+  }
 });
 
 //////////////////////////////////////////////////////////////

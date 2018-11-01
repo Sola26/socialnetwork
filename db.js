@@ -89,7 +89,7 @@ exports.uploadImages = function(image, id) {
         SET image =$1
         WHERE id = $2
         returning *`;
-  const params = [image, id];
+  const params = [image || null, id || null];
   return db.query(q, params);
 };
 
@@ -105,10 +105,15 @@ exports.getUserById = function(id) {
   return db.query(q, params);
 };
 
+////////////////////////////////////////////////////////////////////////////////////
+
 exports.uploadBio = function(bio, id) {
-  return db
-    .query(`UPDATE social SET bio=$1 WHERE id=$2 returning *`, [bio, id])
-    .then(result => {
-      return result.rows[0].bio;
-    });
+  const q = `
+        UPDATE users
+        SET bio=$1
+        WHERE id=$2
+        returning *
+        `;
+  const params = [bio || null, id || null];
+  return db.query(q, params);
 };

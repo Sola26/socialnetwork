@@ -1,3 +1,18 @@
 body {
-  /* background-color: rgb(153, 113, 235); */
+  background-color: rgb(226, 196, 232);
+}
+
+.profile {
+  position: absolute;
+  top: 3%;
+  left: 95%;
+  border: 1px rgb(241, 240, 237);
+}
+
+.profilepic {
+  width: 100px;
+  height: 100px;
+}
+
+.bio {
 }

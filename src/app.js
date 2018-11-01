@@ -1,9 +1,10 @@
 import axios from "./axios";
 import React from "react";
 import ProfilePic from "./profilepic.js";
-import Uploadimage from "./uploadImage";
+import Uploadimage from "./uploadimage";
 import Bio from "./bio.js";
 import Profile from "./profile";
+import Opp from "./opp";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
       firstname: "",
       lastname: "",
       imgUrl: "",
+      bio: "",
       uploaderIsVisible: false
     };
     this.showUploader = this.showUploader.bind(this);
@@ -20,17 +22,13 @@ export default class App extends React.Component {
     this.setImage = this.setImage.bind(this);
     this.setBio = this.setBio.bind(this);
   }
-  componentDidMount() {
-    axios
-      .get("/user")
-      .then(({ data }) => {
-        this.setState({
-          ...data
-        });
-      })
-      .catch(err => {
-        console.log("err in componentDidMount: ", err);
-      });
+  showUploader() {
+    this.setState({ uploaderIsVisible: true });
+  }
+  hideUploader() {
+    this.setState({
+      uploaderIsVisible: false
+    });
   }
   setBio(bio) {
     this.setState({
@@ -44,13 +42,17 @@ export default class App extends React.Component {
       uploaderIsVisible: false
     });
   }
-  showUploader() {
-    this.setState({ uploaderIsVisible: true });
-  }
-  hideUploader() {
-    this.setState({
-      uploaderIsVisible: false
-    });
+  componentDidMount() {
+    axios
+      .get("/user")
+      .then(({ data }) => {
+        this.setState({
+          ...data
+        });
+      })
+      .catch(err => {
+        console.log("err in componentDidMount: ", err);
+      });
   }
 
   render() {
@@ -61,16 +63,20 @@ export default class App extends React.Component {
     }
     return (
       <div>
-        <ProfilePic
-          image={this.state.image}
-          firstname={this.state.image}
-          lastname={this.state.lastname}
-          id={this.state.id}
-          clickHandler={this.showUploader}
-        />
+        <div className="profilepic">
+          <ProfilePic
+            image={this.state.image}
+            firstname={this.state.image}
+            lastname={this.state.lastname}
+            id={this.state.id}
+            bio={this.state.bio}
+            clickHandler={this.showUploader}
+          />
+        </div>
         <BrowserRouter>
-          <div>
+          <div className="profilepic">
             <Route
+              exact
               path="/"
               render={props => (
                 <Profile
@@ -81,6 +87,17 @@ export default class App extends React.Component {
                   image={this.state.image}
                   clickHandler={this.showUploader}
                   setBio={this.setBio}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/user/:id"
+              render={props => (
+                <Opp
+                  {...props}
+                  currentUserId={this.state.id}
+                  key={props.match.url}
                 />
               )}
             />
@@ -97,6 +114,14 @@ export default class App extends React.Component {
 
 ///////////////////////////////////////////////////////////////////
 
-// set the image to null then if image = null => image = default
+{
+  /*set the image to null then if image = null => image = default*/
+}
 
-// <Route path="/user/:id" component={}><Route />
+{
+  /*<Route path="/user/:id" component={}><Route />*/
+}
+
+{
+  /*the state of one componet is gonna be the props of another componet*/
+}

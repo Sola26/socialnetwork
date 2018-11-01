@@ -14,13 +14,18 @@ export default class Profile extends React.Component {
         <h1>
           {this.props.firstname} {this.props.lastname}
         </h1>
-        <ProfilePic
-          image={this.props.image}
-          firstname={this.props.firstname}
-          lastname={this.props.lastname}
-          id={this.props.id}
-          clickHandler={this.props.showUploader}
-        />
+        <div className="profilepic">
+          <ProfilePic
+            image={this.props.image}
+            firstname={this.props.firstname}
+            lastname={this.props.lastname}
+            id={this.props.id}
+            clickHandler={this.props.showUploader}
+          />
+        </div>
+        <div className="bio">
+          <Bio bio={this.props.bio} setBio={this.props.setBio} />
+        </div>
       </div>
     );
   }

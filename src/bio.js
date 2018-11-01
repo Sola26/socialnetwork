@@ -1,7 +1,6 @@
-import axios from "./axios";
 import React from "react";
-import App from "./app";
-import Profile from "./profile";
+import ReactDOM from "react-dom";
+import axios from "./axios";
 
 export default class Bio extends React.Component {
   constructor(props) {
@@ -11,17 +10,11 @@ export default class Bio extends React.Component {
       bio: " "
     };
 
-    this.uploadBio = this.uploadBio.bind(this);
     this.showTextarea = this.showTextarea.bind(this);
     this.hideTextarea = this.hideTextarea.bind(this);
     this.uploadBio = this.uploadBio.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-  handleChange(e) {
-    this.setState({
-      bio: e.target.value
-    });
-  }
-
   showTextarea() {
     this.setState({
       draftBio: true
@@ -32,31 +25,35 @@ export default class Bio extends React.Component {
       draftBio: false
     });
   }
-  // handleBioInput(e) {
-  //   console.log("e.target.value", e.target.value);
-  //   this.setState({
-  //     draftBio: e.target.value
-  //   });
-  // }
+  handleChange(e) {
+    this.setState({
+      bio: e.target.value
+    });
+  }
+
   uploadBio() {
     axios
       .post("/usersbio", {
-        usersbio: this.state.bio
+        bio: this.state.bio
       })
-      .then(response => {
+      .then(result => {
         this.setState({
           draftBio: false
         });
-        this.props.setBio(response.data.bio);
+        this.props.setBio(result.data.bio);
       });
   }
 
   render() {
-    if (this.state.mode == "edit") {
+    if (this.state.draftBio) {
       return (
         <div>
-          <texarea defaultValue={this.props.bio} onChange={this.handleChange} />
-          <button onClick={this.handleSubmit}>save</button>
+          <p>{this.state.bio}</p>
+          <textarea
+            defaultValue={this.props.bio}
+            onChange={this.handleChange}
+          />
+          <button onClick={this.uploadBio}>save</button>
           <button onClick={this.hideTextarea}>cancle</button>
         </div>
       );
@@ -64,7 +61,7 @@ export default class Bio extends React.Component {
       return (
         <div>
           <p>{this.props.bio}</p>
-          <button onClick={this.showTextarea}>edit</button>
+          <button onClick={this.showTextarea}>edit Bio</button>
         </div>
       );
     }

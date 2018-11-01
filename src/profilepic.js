@@ -6,7 +6,7 @@ import App from "./app";
 
 export default function ProfilePic(props) {
   // if (!props.id) {
-  //     return null;
+  //   return null;
   // }
   const image =
     props.image || "https://media.giphy.com/media/xTkcF0p5afJpn9gUtG/giphy.gif";

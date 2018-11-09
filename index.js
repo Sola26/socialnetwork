@@ -106,8 +106,8 @@ app.post("/welcome", function(req, res) {
         console.log("hashedPw in register: ", hashedPw);
         return db
           .insertNewUser(
-            req.body.firstnamenamename,
-            req.body.lastnamename,
+            req.body.firstname,
+            req.body.lastname,
             req.body.email,
             hashedPw
           )
@@ -115,8 +115,8 @@ app.post("/welcome", function(req, res) {
             console.log("result in register: ", result);
             req.session.loggedIn = true;
             req.session.userId = result.rows[0].id;
-            req.session.firstnamename = req.body.firstnamenamename;
-            req.session.lastname = req.body.lastnamename;
+            req.session.firstname = req.body.firstname;
+            req.session.lastname = req.body.lastname;
             res.redirect("/profile");
           })
           .catch(err => {

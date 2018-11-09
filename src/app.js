@@ -5,7 +5,12 @@ import Uploadimage from "./uploadimage";
 import Bio from "./bio.js";
 import Profile from "./profile";
 import Opp from "./opp";
-import { BrowserRouter, Route } from "react-router-dom";
+import FriendButton from "./friendrequest";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import Friends from "./friends.js";
+import OnlineUsers from "./onlineusers.js";
+import Chat from "./chat";
+import Login from "./login";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -21,14 +26,13 @@ export default class App extends React.Component {
     this.hideUploader = this.hideUploader.bind(this);
     this.setImage = this.setImage.bind(this);
     this.setBio = this.setBio.bind(this);
+    this.myFunction = this.myFunction.bind(this);
   }
   showUploader() {
     this.setState({ uploaderIsVisible: true });
   }
   hideUploader() {
-    this.setState({
-      uploaderIsVisible: false
-    });
+    this.setState({ uploaderIsVisible: false });
   }
   setBio(bio) {
     this.setState({
@@ -54,6 +58,14 @@ export default class App extends React.Component {
         console.log("err in componentDidMount: ", err);
       });
   }
+  myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "navbar") {
+      x.className += " responsive";
+    } else {
+      x.className = "navbar";
+    }
+  }
 
   render() {
     if (!this.state.id) {
@@ -69,12 +81,11 @@ export default class App extends React.Component {
             firstname={this.state.image}
             lastname={this.state.lastname}
             id={this.state.id}
-            bio={this.state.bio}
             clickHandler={this.showUploader}
           />
         </div>
         <BrowserRouter>
-          <div className="profilepic">
+          <div>
             <Route
               exact
               path="/"
@@ -90,6 +101,20 @@ export default class App extends React.Component {
                 />
               )}
             />
+            <div className="navbar" id="myTopnav">
+              <Link to="/">My profile</Link>
+              <Link to="/Online">Online friends </Link>
+              <Link to="/Friends">Friends </Link>
+              <Link to="/Chat">Chat</Link>
+              <a
+                href="javascript:void(0);"
+                className="icon"
+                onClick={this.myFunction}
+              >
+                <i className="fa fa-bars" />
+              </a>
+              <Logout />
+            </div>
             <Route
               exact
               path="/user/:id"
@@ -101,11 +126,18 @@ export default class App extends React.Component {
                 />
               )}
             />
+
+            <Route exact path="/friends" component={Friends} />
+            <Route exact path="/online" component={OnlineUsers} />
+            <Route exact path="/chat" component={Chat} />
           </div>
         </BrowserRouter>
 
         {this.state.uploaderIsVisible && (
-          <Uploadimage setImage={this.setImage} />
+          <Uploadimage
+            setImage={this.setImage}
+            hideUploader={this.hideUploader}
+          />
         )}
       </div>
     );
@@ -114,14 +146,29 @@ export default class App extends React.Component {
 
 ///////////////////////////////////////////////////////////////////
 
-{
-  /*set the image to null then if image = null => image = default*/
+export function Logo() {
+  return (
+    <div>
+      <img
+        className="logo"
+        src="https://media.giphy.com/media/xTkcF0p5afJpn9gUtG/giphy.gif"
+      />
+    </div>
+  );
 }
 
-{
-  /*<Route path="/user/:id" component={}><Route />*/
+export function Logout(props) {
+  return (
+    <a className="logoutbutton" href="/logout">
+      Log out
+    </a>
+  );
 }
 
-{
-  /*the state of one componet is gonna be the props of another componet*/
+export function LinkToProfile(props) {
+  return (
+    <a className="my-profile" href="/">
+      My Profile
+    </a>
+  );
 }

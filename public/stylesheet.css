@@ -1,18 +1,306 @@
-body {
-  background-color: rgb(226, 196, 232);
-}
-
-.profile {
-  position: absolute;
-  top: 3%;
-  left: 95%;
-  border: 1px rgb(241, 240, 237);
-}
-
-.profilepic {
-  width: 100px;
-  height: 100px;
+.body {
+  cursor: default;
+  font: small arial, sans-serif;
+  margin: 0;
+  min-width: 360px;
+  min-height: 100%;
+  overflow-x: hidden;
+  text-align: -webkit-center;
 }
 
 .bio {
+  position: absolute;
+  top: 60%;
+  font-size: 12px;
+  font-family: Helvetica;
+}
+
+.profilepic .pic {
+  position: absolute;
+  left: 1%;
+  top: 1.5%;
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.user {
+  position: absolute;
+  top: 20%;
+}
+.username {
+  font-size: 20px;
+  font-family: Helvetica;
+  position: absolute;
+  top: 53%;
+  color: black;
+}
+
+.pic {
+  position: absolute;
+  top: 20%;
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+}
+.friendsImg {
+  position: absolute;
+  top: 17%;
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+}
+.friendsname {
+  position: absolute;
+  top: 49%;
+}
+
+.friendbttn {
+  position: absolute;
+  top: 59%;
+}
+.friendsbio {
+  position: absolute;
+  top: 52%;
+}
+
+.onlinefriends {
+  position: absolute;
+  top: 20%;
+}
+.friendspic {
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+}
+
+.x {
+  font-size: 20px;
+  position: absolute;
+  top: 6px;
+  left: 86%;
+  cursor: pointer;
+}
+.uploadimg {
+  background-color: rgb(217, 217, 217);
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  text-align: center;
+  color: white;
+}
+
+.updateyourpic {
+  font-size: 20px;
+  position: absolute;
+  top: 20%;
+  left: 32%;
+}
+.upload {
+  font-size: 20px;
+  position: absolute;
+  top: 40%;
+  left: 35%;
+  color: white;
+}
+
+.uploadbutton {
+  position: absolute;
+  top: 60%;
+  left: 33%;
+  color: white;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  align-content: flex-start;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+}
+
+.login {
+  position: absolute;
+  top: 77%;
+  left: 37%;
+  font-size: 50px;
+}
+
+.input {
+  padding: 1px;
+  width: 200px;
+  height: 50px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  color: rgb(175, 175, 175);
+  border: 1px solid grey;
+}
+
+.logo {
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+
+.welcome {
+  position: absolute;
+  top: 1%;
+  left: 31%;
+  font-size: 100px;
+}
+
+.chat-messages-container {
+  border: 1px solid grey;
+  height: 300px;
+  width: 480px;
+  overflow-y: scroll;
+  color: rgb(195, 65, 97);
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  font-family: Helvetica;
+  text-align: left;
+  padding: 10px;
+}
+.textchat {
+  resize: none;
+  padding: 10px;
+  height: 100px;
+  width: 480px;
+  outline: none;
+  color: black;
+  font-family: Helvetica;
+  font-size: 15px;
+  position: absolute;
+  top: 73%;
+  left: 30%;
+}
+
+/* .single-message {
+  color: rgb(195, 65, 97);
+} */
+#chat-date {
+  color: black;
+  font-size: 9px;
+}
+
+/* #chat-names {
+  color: grey;
+} */
+.loginbttn {
+  position: absolute;
+  top: 56%;
+  left: 56%;
+  text-align: center;
+}
+
+.registerbttn {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  padding: 1px;
+  width: 200px;
+  height: 50px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  color: rgb(175, 175, 175);
+}
+.linktologin {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  font-weight: bold;
+  font-size: 12px;
+  color: rgb(175, 175, 175);
+}
+
+.linktoregister {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  font-weight: bold;
+  font-size: 12px;
+  color: rgb(175, 175, 175);
+}
+
+.inputsforlogin {
+  display: flex;
+  flex-direction: column;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  align-content: flex-start;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+}
+
+.navbar {
+  background-color: #333;
+  overflow: hidden;
+  position: absolute;
+  left: 8%;
+  width: 90%;
+}
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  height: 33px;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.friends {
+  position: absolute;
+  top: 30%;
+}
+.navbar .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar a:not(:first-child) {
+    display: none;
+  }
+  .navbar a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* The "responsive" class is added to the navbar with JavaScript when the user clicks on the icon. This class makes the navbar look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 600px) {
+  .navbar.responsive {
+    position: relative;
+  }
+  .navbar.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }

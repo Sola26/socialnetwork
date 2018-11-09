@@ -5,9 +5,12 @@ import Login from "./login";
 
 export default function Welcome() {
   return (
-    <div id="welcome">
-      <h1>Welcome!</h1>
-      <img src="/logo.png" />
+    <div>
+      <h1 className="welcome">Welcome!</h1>
+      <img
+        className="logo"
+        src="https://media.giphy.com/media/xTkcF0p5afJpn9gUtG/giphy.gif"
+      />
 
       <HashRouter>
         <div>

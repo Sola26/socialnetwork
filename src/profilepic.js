@@ -10,5 +10,5 @@ export default function ProfilePic(props) {
   // }
   const image =
     props.image || "https://media.giphy.com/media/xTkcF0p5afJpn9gUtG/giphy.gif";
-  return <img onClick={props.clickHandler} src={image} />;
+  return <img className="pic" onClick={props.clickHandler} src={image} />;
 }

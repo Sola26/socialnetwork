@@ -25,12 +25,7 @@ exports.insertNewUser = function(firstname, lastname, email, password) {
         RETURNING id
     `;
 
-  const params = [
-    firstname || null,
-    lastname || null,
-    email || null,
-    password || null
-  ];
+  const params = [firstname, lastname, email, password];
 
   return db.query(q, params);
 };
@@ -38,7 +33,7 @@ exports.insertNewUser = function(firstname, lastname, email, password) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 exports.getPassword = function(usersemail) {
-  const q = `SELECT password FROM users WHERE email = $1`;
+  const q = `SELECT id, password FROM users WHERE email = $1`;
   const params = [usersemail];
   return db.query(q, params);
 };
@@ -116,4 +111,112 @@ exports.uploadBio = function(bio, id) {
         `;
   const params = [bio || null, id || null];
   return db.query(q, params);
+};
+
+////////////////////////////////////////////////////////////////////////////////////
+
+exports.getStatus = function(id, otherProfileId) {
+  const q = `
+    SELECT * FROM friendships
+WHERE (receiver_id = $1 AND sender_id = $2)
+OR (receiver_id = $2 AND sender_id = $1)
+          `;
+  const params = [id || null, otherProfileId || null];
+  return db.query(q, params);
+};
+
+exports.makeRequest = function(id, otherProfileId) {
+  const q = `
+        INSERT INTO friendships
+        (sender_id, receiver_id)
+        VALUES ($1, $2)
+        returning *
+        `;
+  const params = [id || null, otherProfileId || null];
+  return db.query(q, params);
+};
+
+exports.cancelRequest = function(id, otherProfileId) {
+  const q = `
+          DELETE FROM friendships
+          WHERE sender_id = $1 AND
+          receiver_id = $2
+          returning *
+          `;
+  const params = [id || null, otherProfileId || null];
+  return db.query(q, params);
+};
+
+exports.acceptFriendship = function(id, otherProfileId) {
+  const q = `
+        UPDATE friendships
+        SET accepted=true
+        WHERE (sender_id = $2 AND receiver_id = $1)
+        returning *
+            `;
+  const params = [id || null, otherProfileId || null];
+  return db.query(q, params);
+};
+
+exports.endFriendship = function(id, otherProfileId) {
+  const q = `
+              DELETE FROM friendships
+              WHERE (sender_id = $1 AND receiver_id = $2)
+              OR (sender_id = $2 AND receiver_id = $1)
+              returning *
+              `;
+  const params = [id || null, otherProfileId || null];
+  return db.query(q, params);
+};
+
+exports.getFriendsOrWanabees = function(id) {
+  const q = `SELECT users.id, firstname, lastname, image, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND receiver_id= $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
+`;
+  const params = [id || null];
+  return db.query(q, params);
+};
+
+////////////////////////////////////////
+exports.getUsersByIds = function getUsersByIds(arrayOfIds) {
+  const query = `SELECT id, firstname, lastname, image FROM users WHERE id = ANY($1)`;
+  return db.query(query, [arrayOfIds]);
+};
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+exports.getDataById = function(id) {
+  return db.query(`SELECT * FROM users WHERE id=$1`, [id]).then(result => {
+    return result.rows[0];
+  });
+};
+
+exports.saveChatMessage = function(sender_id, chat_message) {
+  const q = `
+        INSERT INTO chat
+        (sender_id, chat_message)
+        VALUES
+        ($1, $2)
+        RETURNING *
+    `;
+  const params = [sender_id || null, chat_message || null];
+
+  return db.query(q, params);
+};
+
+exports.showLastTenMessages = function() {
+  return db
+    .query(
+      `SELECT users.firstname, users.lastname, users.image, chat.chat_message, chat.created_at, chat.id, chat.sender_id
+                FROM users
+                JOIN chat
+                ON users.id = chat.sender_id
+                ORDER BY chat.id DESC LIMIT 10`
+    )
+    .then(result => {
+      return result.rows;
+    });
 };

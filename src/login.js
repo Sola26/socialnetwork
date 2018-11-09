@@ -24,10 +24,11 @@ export default class Login extends React.Component {
         password: this.state.password
       })
       .then(result => {
-        // console.log(result);
+        console.log(result);
         if (result.data) {
-          location.replace("/profile");
+          location.replace("/");
         } else {
+          console.log("else in axios in login");
           this.setState({
             error: true
           });
@@ -38,14 +39,31 @@ export default class Login extends React.Component {
     return (
       <div>
         {this.state.error && <div className="error">try again</div>}
-        <input name="email" placeholder="Email" onChange={this.handleChange} />
+        <div className="inputsforlogin">
+          <input
+            className="input"
+            name="email"
+            placeholder="Email"
+            onChange={this.handleChange}
+          />
 
-        <input
-          name="password"
-          placeholder="Password"
-          onChange={this.handleChange}
-        />
-        <button onClick={this.login}>Login</button>
+          <input
+            className="input"
+            name="password"
+            placeholder="Password"
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className="loginbttn">
+          <button onClick={this.login}>Login</button>
+        </div>
+        <div className="linktoregister">
+          <p>
+            You are new? Click
+            <Link to="/"> here </Link>
+            to Register
+          </p>
+        </div>
       </div>
     );
   }

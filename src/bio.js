@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "./axios";
+import App from "./app.js";
+import ProfilePic from "./profilepic";
 
 export default class Bio extends React.Component {
   constructor(props) {
@@ -46,8 +48,9 @@ export default class Bio extends React.Component {
 
   render() {
     if (this.state.draftBio) {
+      console.log("this.props: ", this.props);
       return (
-        <div>
+        <div className="bio">
           <p>{this.state.bio}</p>
           <textarea
             defaultValue={this.props.bio}
@@ -60,6 +63,8 @@ export default class Bio extends React.Component {
     } else {
       return (
         <div>
+          {!this.props.bio && <p> add a bio </p>}
+
           <p>{this.props.bio}</p>
           <button onClick={this.showTextarea}>edit Bio</button>
         </div>

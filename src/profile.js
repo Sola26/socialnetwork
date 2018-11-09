@@ -1,8 +1,9 @@
 import React from "react";
 import ProfilePic from "./profilepic";
 import Bio from "./bio";
-
 import axios from "./axios";
+import App from "./app.js";
+import Friendrequest from "./friendrequest";
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -10,11 +11,11 @@ export default class Profile extends React.Component {
   }
   render() {
     return (
-      <div className="profile">
-        <h1>
+      <div>
+        <p className="username">
           {this.props.firstname} {this.props.lastname}
-        </h1>
-        <div className="profilepic">
+        </p>
+        <div className="user">
           <ProfilePic
             image={this.props.image}
             firstname={this.props.firstname}
@@ -25,6 +26,7 @@ export default class Profile extends React.Component {
         </div>
         <div className="bio">
           <Bio bio={this.props.bio} setBio={this.props.setBio} />
+          <Friendrequest currentUserId={this.props.id} />
         </div>
       </div>
     );

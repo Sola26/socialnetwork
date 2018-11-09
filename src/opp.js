@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import ProfilePic from "./profilepic";
+import ProfilePic from "./profilepic.js";
+import FriendButton from "./friendrequest";
+import App from "./app.js";
 
 export default class Opp extends React.Component {
   constructor() {
@@ -14,7 +16,7 @@ export default class Opp extends React.Component {
     axios
       .get("/api-user-id/" + oppId)
       .then(result => {
-        console.log("result ..: ", result.data);
+        // console.log("result ..: ", result.data);
         if (result.data == "false") {
           this.props.history.push("/");
           return;
@@ -38,14 +40,25 @@ export default class Opp extends React.Component {
       <div>
         <ProfilePic image={this.state.image} />
 
-        <p>
+        <p className="friendsname">
           Name: {this.state.firstname} {this.state.lastname}
         </p>
-
-        <button>send a friend request</button>
+        <p className="friendsbio">BIO: {this.state.bio}</p>
+        <FriendButton
+          className="friendbttn"
+          oppId={this.props.match.params.id}
+        />
       </div>
     );
   }
+}
+
+export function MyProfile() {
+  return (
+    <div>
+      <Link to="/">My Profile</Link>
+    </div>
+  );
 }
 
 // if user1 path = user1 => redirect to profile (  this.props.history.push('/');  )
